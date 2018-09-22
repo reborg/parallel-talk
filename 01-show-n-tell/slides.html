@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<title>Parallel all the way down</title>
+
+<meta name="description" content="Parallel all the way down">
+
+  <meta name="author" content="Taking parallelism to the next level" />
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<link rel="stylesheet" href="reveal.js/plugin/toc-progress/toc-progress.css">
+<link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <link rel="stylesheet" href="reveal.js/css/theme/beige.css" id="theme">
+
+
+<!-- For syntax highlighting -->
+  <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+
+<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+<script>
+  document.write( '<link rel="stylesheet" href="reveal.js/css/print/' +
+    ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) +
+    '.css" type="text/css" media="print">' );
+</script>
+
+<!--[if lt IE 9]>
+<script src="lib/js/html5shiv.js"></script>
+<![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+<!-- Any section element inside of this container is displayed as a slide -->
+<div class="slides">
+
+<section>
+<h1>Parallel all the way down</h1>
+<h3>Taking parallelism to the next level</h3>
+<p>
+<h4>https://github.com/reborg/parallel</h4>
+</p>
+</section>
+
+
+<section id="agenda" class="level1">
+<h1>Agenda</h1>
+<ol type="1">
+<li>Rationale</li>
+<li>Clojure parallel feature</li>
+<li>Examples</li>
+</ol>
+</section>
+<section id="rationale" class="level1">
+<h1>### 1. Rationale</h1>
+</section>
+<section id="fp-promise" class="level1">
+<h1>FP promise</h1>
+<ul>
+<li>Circa 2007-2008</li>
+<li>CPU top speed achieved</li>
+<li>CPU cores will increase in number</li>
+<li>How software can leverage multiple cores</li>
+<li>FP better than OO for concurrency (and more)</li>
+</ul>
+</section>
+<section id="clojure-parallelism" class="level1">
+<h1>Clojure Parallelism</h1>
+<ul>
+<li>Not distributed parallel APIs:</li>
+<li><code>pmap</code> (lazy, sequential, constrained)</li>
+<li><code>r/fold</code> (work-stealing, fork-join)</li>
+<li>Custom (with <code>future</code>, <code>agent</code>, etc.)</li>
+<li><code>core.async</code> pipelines</li>
+</ul>
+</section>
+<section id="problems" class="level1">
+<h1>Problems</h1>
+<ul>
+<li>Not necessarily easy to use</li>
+<li>Even more to use correctly</li>
+<li>Type dependency, chunk size</li>
+<li>Powerful but &quot;low level&quot;</li>
+<li>Not task oriented</li>
+</ul>
+</section>
+<section id="solution" class="level1">
+<h1>Solution</h1>
+<ul>
+<li>Task oriented approach</li>
+<li>Mimic standard library functions</li>
+<li>Sort out type conversion, chunk sizes</li>
+<li>Documentation and examples</li>
+</ul>
+</section>
+<section id="the-library" class="level1">
+<h1>### 2. The library</h1>
+</section>
+<section id="parallel-library" class="level1">
+<h1>Parallel Library</h1>
+<ul>
+<li>Guaranteed speed-up (always bench first)</li>
+<li>Some are plain drop-in replacements for the stdlib</li>
+<li>Others just slightly different</li>
+<li>Additional task oriented APIs</li>
+<li>Transducers support and helpers</li>
+<li>Documented, tested and benchmarked</li>
+<li>No dependencies (other than Clojure itself)</li>
+</ul>
+</section>
+<section id="current-line-up-1" class="level1">
+<h1>Current Line-up 1</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#plet"><code>p/let</code></a></td>
+<td>Parallel <code>let</code> binding.</td>
+</tr>
+<tr class="even">
+<td><a href="#pslurp"><code>p/slurp</code></a></td>
+<td>Parallel slurping files.</td>
+</tr>
+<tr class="odd">
+<td><a href="#pcount"><code>p/count</code></a></td>
+<td>Transducer-aware parallel <code>core/count</code>.</td>
+</tr>
+<tr class="even">
+<td><a href="#pfrequencies"><code>p/frequencies</code></a></td>
+<td>Parallel <code>core/frequencies</code></td>
+</tr>
+<tr class="odd">
+<td><a href="#pgroup-by"><code>p/group-by</code></a></td>
+<td>Parallel <code>core/group-by</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="current-line-up-2" class="level1">
+<h1>Current Line-up 2</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#pupdate-vals"><code>p/update-vals</code></a></td>
+<td>Updates values in a map in parallel.</td>
+</tr>
+<tr class="even">
+<td><a href="#pexternal-sort"><code>p/external-sort</code></a></td>
+<td>Memory efficient, file-based, parallel merge-sort.</td>
+</tr>
+<tr class="odd">
+<td><a href="#psort"><code>p/sort</code></a></td>
+<td>Parallel <code>core/sort</code>.</td>
+</tr>
+<tr class="even">
+<td><a href="#pfold-pxrf-and-pfolder"><code>p/fold</code></a></td>
+<td>Transducer-aware <code>r/fold</code>.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="current-line-up-3" class="level1">
+<h1>Current Line-up 3</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#pmin-and-pmax"><code>p/min</code> and <code>p/max</code></a></td>
+<td>Parallel <code>core/min</code> and <code>core/max</code> functions.</td>
+</tr>
+<tr class="even">
+<td><a href="#pdistinct"><code>p/distinct</code></a></td>
+<td>Parallel version of <code>core/distinct</code></td>
+</tr>
+<tr class="odd">
+<td><a href="#pamap"><code>p/amap</code></a></td>
+<td>Parallel array transformation.</td>
+</tr>
+<tr class="even">
+<td><a href="#parmap"><code>p/armap</code></a></td>
+<td>Parallel array reversal with transformation.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="current-line-up-4" class="level1">
+<h1>Current Line-up 4</h1>
+<table>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#xfinterleave"><code>xf/interleave</code></a></td>
+<td>Like <code>core/interleave</code>, transducer version.</td>
+</tr>
+<tr class="even">
+<td><a href="#xfpmap"><code>xf/pmap</code></a></td>
+<td>Like <code>core/pmap</code>, transducer version.</td>
+</tr>
+<tr class="odd">
+<td><a href="#xfidentity"><code>xf/identity</code></a></td>
+<td>Alternative identity transducer to <code>core/identity</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="demo" class="level1">
+<h1>Demo?</h1>
+</section>
+<section id="resources" class="level1">
+<h1>Resources</h1>
+<ul>
+<li>The <a href="https://github.com/reborg/parallel#pfold-pxrf-and-pfolder">parallel</a> library enables consistent stateful xforms in parallel.</li>
+<li><a href="gee.cs.oswego.edu/dl/papers/fj.pdf">A Java fork-join framework</a> paper by Doug Lea</li>
+<li><a href="https://pragprog.com/book/vmclojeco/clojure-applied">Clojure Applied</a> book contains chapters dedicated to Transducers with core.async pipelines examples.</li>
+<li><a href="https://livebook.manning.com/#!/book/clojure-standard-library/chapter-7">Standard Library book</a>, Chapter 7 Reducers and Transducers</li>
+</ul>
+</section>
+</div>
+
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.js"></script>
+
+<script>
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: false,
+
+  // available themes are in /css/theme
+      theme: Reveal.getQueryHash().theme || 'beige',
+  
+  // default/cube/page/concave/zoom/linear/fade/none
+      transition: Reveal.getQueryHash().transition || 'linear',
+  
+    dependencies: [
+      { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: 'reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize(); toc_progress.create(); } }
+      // { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+    ]
+  });
+
+</script>
+
+</body>
+</html>
