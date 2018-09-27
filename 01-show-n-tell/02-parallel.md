@@ -2,7 +2,6 @@
 
 # Parallel Library
 
-* Guaranteed speed-up (always bench first)
 * Some are plain drop-in replacements for the stdlib
 * Others just slightly different
 * Additional task oriented APIs
