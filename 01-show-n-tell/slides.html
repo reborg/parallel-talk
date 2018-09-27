@@ -14,18 +14,18 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="stylesheet" href="reveal.js/plugin/toc-progress/toc-progress.css">
-<link rel="stylesheet" href="reveal.js/css/reveal.css">
-  <link rel="stylesheet" href="reveal.js/css/theme/beige.css" id="theme">
+<link rel="stylesheet" href="../reveal.js/plugin/toc-progress/toc-progress.css">
+<link rel="stylesheet" href="../reveal.js/css/reveal.css">
+  <link rel="stylesheet" href="../reveal.js/css/theme/beige.css" id="theme">
 
 
 <!-- For syntax highlighting -->
-  <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+  <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
 
 
 <!-- If the query includes 'print-pdf', use the PDF print sheet -->
 <script>
-  document.write( '<link rel="stylesheet" href="reveal.js/css/print/' +
+  document.write( '<link rel="stylesheet" href="../reveal.js/css/print/' +
     ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) +
     '.css" type="text/css" media="print">' );
 </script>
@@ -88,7 +88,7 @@
 <li>Not necessarily easy to use</li>
 <li>Even more to use correctly</li>
 <li>Type dependency, chunk size</li>
-<li>Powerful but &quot;low level&quot;</li>
+<li>Powerful but “low level”</li>
 <li>Not task oriented</li>
 </ul>
 </section>
@@ -246,8 +246,8 @@
 </section>
 </div>
 
-<script src="reveal.js/lib/js/head.min.js"></script>
-<script src="reveal.js/js/reveal.js"></script>
+<script src="../reveal.js/lib/js/head.min.js"></script>
+<script src="../reveal.js/js/reveal.js"></script>
 
 <script>
   // Full list of configuration options available here:
@@ -265,14 +265,14 @@
       transition: Reveal.getQueryHash().transition || 'linear',
   
     dependencies: [
-      { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-      { src: 'reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-      { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-      { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
-      { src: 'reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize(); toc_progress.create(); } }
-      // { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+      { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: '../reveal.js/plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: '../reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: '../reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: '../reveal.js/plugin/toc-progress/toc-progress.js', async: true, callback: function() { toc_progress.initialize(); toc_progress.create(); } }
+      // { src: '../reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
     ]
   });
 
